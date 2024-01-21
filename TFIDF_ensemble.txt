@@ -1,0 +1,65 @@
+# TFIDF WITH RANDOM FOREST
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, accuracy_score
+import scikitplot as skplt
+import matplotlib.pyplot as plt
+
+# TF-IDF Vectorizer
+tfidf = TfidfVectorizer(max_features=10000, ngram_range=(1, 3))
+
+# Random Forest Classifier
+rf = RandomForestClassifier()
+
+# Pipeline setup
+pipeline = Pipeline([
+    ('vectorizer', tfidf),
+    ('classifier', rf)
+])
+
+# Fitting the model
+sentiment_fit = pipeline.fit(X_train, y_train)
+
+# Predictions
+y_pred = sentiment_fit.predict(X_test)
+
+# Classification report
+print(classification_report(y_test, y_pred, target_names=['negative', 'positive', 'neutral']))
+
+# Accuracy score
+print("Accuracy score:")
+print(accuracy_score(y_test, y_pred))
+
+# Confusion matrix
+skplt.metrics.plot_confusion_matrix(y_test, y_pred, normalize=True)
+plt.show()
+
+# TFIDF WITH ADABOOST
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import classification_report, accuracy_score
+# Import rAdaBoost from the respective library
+from some_library import rAdaBoost
+
+tfidf = TfidfVectorizer(max_features=10000, ngram_range=(1, 3))
+# Initialize the rAdaBoost classifier
+rada = rAdaBoost()
+
+pipeline = Pipeline([
+    ('vectorizer', tfidf),
+    ('classifier', rada)
+])
+
+sentiment_fit = pipeline.fit(X_train, y_train)
+y_pred = sentiment_fit.predict(X_test)
+
+print(classification_report(y_test, y_pred, target_names=['negative', 'positive', 'neutral']))
+print("accuracy score")
+print(accuracy_score(y_test, y_pred))
+
+import scikitplot as skplt
+import matplotlib.pyplot as plt
+
+skplt.metrics.plot_confusion_matrix(y_test, y_pred, normalize=True)
+plt.show()

@@ -1,0 +1,60 @@
+# BOW WITH RANDOM FOREST
+from sklearn.metrics import classification_report, accuracy_score
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+import scikitplot as skplt
+import matplotlib.pyplot as plt
+
+# Initialize CountVectorizer
+cv = CountVectorizer(max_features=10000, ngram_range=(1, 3))
+
+# Create a pipeline with CountVectorizer and RandomForestClassifier
+pipeline = Pipeline([
+    ('vectorizer', cv),
+    ('classifier', RandomForestClassifier())
+])
+
+# Fit the model
+sentiment_fit = pipeline.fit(X_train, y_train)
+
+# Make predictions
+y_pred = sentiment_fit.predict(X_test)
+
+# Print classification report
+print(classification_report(y_test, y_pred, target_names=['negative', 'positive', 'neutral']))
+
+# Print accuracy score
+print("Accuracy Score:", accuracy_score(y_test, y_pred))
+
+# Plot normalized confusion matrix
+skplt.metrics.plot_confusion_matrix(y_test, y_pred, normalize=True)
+plt.show()
+
+# BOW WITH ADABOOST
+from sklearn.metrics import classification_report, accuracy_score
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import AdaBoostClassifier
+import scikitplot as skplt
+import matplotlib.pyplot as plt
+
+# Assuming X_train, y_train, X_test, y_test are already defined
+
+cv = CountVectorizer(max_features=10000, ngram_range=(1, 3))
+adaboost = AdaBoostClassifier()
+
+pipeline = Pipeline([
+    ('vectorizer', cv),
+    ('classifier', adaboost)
+])
+
+sentiment_fit = pipeline.fit(X_train, y_train)
+y_pred = sentiment_fit.predict(X_test)
+
+print(classification_report(y_test, y_pred, target_names=['negative', 'positive', 'neutral']))
+print("Accuracy Score:")
+print(accuracy_score(y_test, y_pred))
+
+skplt.metrics.plot_confusion_matrix(y_test, y_pred, normalize=True)
+plt.show()
